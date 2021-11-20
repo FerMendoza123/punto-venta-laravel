@@ -13,8 +13,20 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-/*Route::get('/', function () {
-    return view('welcome');
-});*/
+//Route::get('/', function () {return view('welcome');});
+Route::get('/', "Controller@welcome");
 
+
+//Producto
+    //Create
 Route::get("/Alta","ProductoController@alta");
+Route::post("/GuardaProducto","ProductoController@guardaProducto");//->middleware("auth");
+    //Read, Update, Delete
+Route::get("/Producto/{idProducto}","ProductoController@muestraProducto");//->middleware("auth");
+Route::post("/eliminar","ProductoController@eliminaProducto");//->middleware("auth");
+
+Route::get("/vender/{idProducto}","VentaController@vendeProducto");
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

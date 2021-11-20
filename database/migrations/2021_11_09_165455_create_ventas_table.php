@@ -15,11 +15,12 @@ class CreateVentasTable extends Migration
     {
         Schema::create('ventas', function (Blueprint $table) {
             $table->id("IdVenta");
-            $table->unsignedBigInteger("IdUsu");
+            $table->unsignedBigInteger("IdUsuario");
             #$table->unsignedBigInteger("");
             $table->date("Fechacompra");
             $table->timestamps();
-            $table->foreign("IdUsu")->references("IdUsuario")->on("usuarios");
+
+            $table->foreign("IdUsuario")->references("IdUsuario")->on("usuarios");
         });
     }
 
