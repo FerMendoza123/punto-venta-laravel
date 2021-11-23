@@ -1,6 +1,6 @@
-@extends("documentoLayout")
+@extends('layouts.app')
 
-@section("contenido")
+@section("content")
 
 <div class="container mt-5" >
 
@@ -13,29 +13,29 @@
                 <img id="imagen" class="img-fluid" src="{{asset('/storage/photo-g45c944de3_640.png')}}" alt="No se encontró la imagen">
             </div>
             <input id="selectorImg" name="imagen" class="col-3" type="file">
-            <input id="NombreImg" name="NombreImg" type="text" hidden>
+            <input id="NombreImg" name="nombreImg" type="text" hidden>
         </div>
 
         <div id="mensaje" class="alert alert-danger" style="display: none;" role="alert"></div>
 
         <div class="row m-2">
             <label class="col-3" for="codigo">Codigo de producto*:</label>    
-            <input id="CodigoProd" name="CodigoProd" class="col" type="text">
+            <input id="CodigoProd" name="codigoProd" class="col" type="text">
         </div>
 
         <div class="row m-2">
             <label class="col-3" for="nombre">Nombre del producto:</label>    
-            <input id="Nombre" name="Nombre" class="col"  type="text">
+            <input id="Nombre" name="nombre" class="col"  type="text">
         </div>
 
         <div class="row m-2">
             <label class="col-3" for="precio">Precio*:</label>    
-            <input id="Precio" name="Precio" class="col" type="text">
+            <input id="Precio" name="precio" class="col" type="text">
         </div>
 
         <div class="row m-2">
             <label class="col-3" for="cantidad">Cantidad en almacén:</label>  
-            <input id="Stock" name="Stock" class="col" type="number">
+            <input id="Stock" name="stock" class="col" type="number">
         </div>
         <div class="row m-2 align-items-end">
             <input class="btn btn-primary" type="submit" value="Registrar producto">

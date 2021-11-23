@@ -14,11 +14,24 @@
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+    <!--<link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">-->
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+
+
+    <link href="/libreriasOffLine/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <script src="/libreriasOffLine/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/libreriasOffLine/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="/libreriasOffLine/fontawesome-free-5.15.4-web/css/all.css"/>
+
 </head>
+
+
+
+
+
 <body>
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
@@ -35,6 +48,16 @@
                     <ul class="navbar-nav mr-auto">
 
                     </ul>
+
+
+
+                <!--busqueda-->
+                <form class="d-flex w-50">
+                    <input name="" class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Buscar</button>
+                </form>
+
+
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">

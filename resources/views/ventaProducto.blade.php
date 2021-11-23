@@ -1,6 +1,6 @@
-@extends("documentoLayout")
+@extends('layouts.app')
 
-@section("contenido")
+@section("content")
 
 
 <div>Vas a vender el producto {{$idProducto}}</div>

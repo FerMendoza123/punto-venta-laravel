@@ -1,22 +1,22 @@
-@extends("documentoLayout")
+@extends('layouts.app')
 
-@section("contenido")
+@section("content")
 
 <div class="row">
     <div class="col-3">
-    @if(!is_null($producto->DireccionImg))
-        <img  class="img-fluid" src="{{asset('/storage/'.$producto->DireccionImg)}}" alt="No encuentro la imagen">
+    @if(!is_null($producto->direccionImg))
+        <img  class="img-fluid" src="{{asset('/storage/'.$producto->direccionImg)}}" alt="No encuentro la imagen">
     @endif
     </div>
    
     <div class="col-5">
-        <span class="row">@if($producto->Nombre){{$producto->Nombre}}@endif @if($producto->CodigoProd)({{$producto->CodigoProd}})@endif</span>
-        <span class="row">Precio: {{$producto->Precio}}</span>
-        <span class="row">Cantidad en almacén: @if(!is_null($producto->Stock)) {{$producto->Stock}} @else No se ha registrado la canditad, edite el producto para agregar @endif</span>
+        <span class="row">@if($producto->nombre){{$producto->nombre}}@endif @if($producto->codigoProd)({{$producto->codigoProd}})@endif</span>
+        <span class="row">Precio: {{$producto->precio}}</span>
+        <span class="row">Cantidad en almacén: @if(!is_null($producto->stock)) {{$producto->stock}} @else No se ha registrado la canditad, edite el producto para agregar @endif</span>
         <div class="row justify-content-around">
-            <button class="col-2 btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#modalEditar" id="{{$producto->CodigoProd}}"> Editar </button>
+            <button class="col-2 btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#modalEditar" id="{{$producto->codigoProd}}"> Editar </button>
             <button class="col-2 btn btn-danger" type="button" data-bs-toggle="modal" data-bs-target="#modalEliminar"> Eliminar </button>
-            <a class="col-2 btn btn-success" href="/vender/{{$producto->CodigoProd}}">vender</a>
+            <a class="col-2 btn btn-success" href="/vender/{{$producto->codigoProd}}">vender</a>
         </div>
 
 
@@ -32,30 +32,30 @@
                     </div>
                     <div class="modal-body">
 
-                        <input name="IdProducto" type="text" value="{{$producto->IdProducto}}" hidden>
+                        <input name="idProducto" type="text" value="{{$producto->idProducto}}" hidden>
 
                         <div class="row m-2 mb-5 align-items-end justify-content-center">
                             <div id="conenedorImg" class="col-3">
-                                <img id="imagen" class="img-fluid" src="@if(!is_null($producto->DireccionImg)){{asset('/storage/'.$producto->DireccionImg)}}@else{{asset('/storage/photo-g45c944de3_640.png')}}@endif" alt="No se encontró la imagen">
+                                <img id="imagen" class="img-fluid" src="@if(!is_null($producto->direccionImg)){{asset('/storage/'.$producto->direccionImg)}}@else{{asset('/storage/photo-g45c944de3_640.png')}}@endif" alt="No se encontró la imagen">
                             </div>
                             <input id="selectorImg" name="imagen" class="col-3" type="file">
-                            <input id="NombreImg" name="NombreImg" type="text" hidden>
+                            <input id="NombreImg" name="nombreImg" type="text" hidden>
                         </div>
 
                         <div id="mensaje" class="alert alert-danger" style="display: none;" role="alert"></div>
 
                         
                         <label class="row" for="codigo">Codigo de producto*:</label>    
-                        <input id="CodigoProd" name="CodigoProd" class="row w-100" type="text" value="@if($producto->CodigoProd){{$producto->CodigoProd}}@endif"> 
+                        <input id="CodigoProd" name="codigoProd" class="row w-100" type="text" value="@if($producto->codigoProd){{$producto->codigoProd}}@endif"> 
                         
                         <label class="row" for="nombre">Nombre del producto:</label>    
-                        <input id="Nombre" name="Nombre" class="row w-100"  type="text" value="@if($producto->Nombre){{$producto->Nombre}}@endif ">
+                        <input id="Nombre" name="nombre" class="row w-100"  type="text" value="@if($producto->nombre){{$producto->nombre}}@endif ">
                     
                         <label class="row" for="precio">Precio*:</label>    
-                        <input id="Precio" name="Precio" class="row w-100" type="text" value="{{$producto->Precio}}">
+                        <input id="Precio" name="precio" class="row w-100" type="text" value="{{$producto->precio}}">
                     
                         <label class="row" for="cantidad">Cantidad en almacén:</label>  
-                        <input id="Stock" name="Stock" class="row w-100" type="number" value="@if(!is_null($producto->Stock)){{$producto->Stock}}@endif">
+                        <input id="Stock" name="stock" class="row w-100" type="number" value="@if(!is_null($producto->stock)){{$producto->stock}}@endif">
                         
                     </div>
                     <div class="modal-footer">
@@ -70,7 +70,7 @@
         <!--Modal Para eliminar-->
         <form action="/eliminar" method="POST">
             @csrf
-            <input type="text" name="idProducto" value="{{$producto->IdProducto}}" hidden>
+            <input type="text" name="idProducto" value="{{$producto->idProducto}}" hidden>
             <div class="modal fade" id="modalEliminar" tabindex="-1" aria-labelledby="modalEliminarLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">

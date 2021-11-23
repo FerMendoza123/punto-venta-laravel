@@ -38,7 +38,12 @@ class RegisterController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest');
+        
+        $numero=(User::count());
+        if($numero>0)
+            $this->middleware('auth');
+        else
+            $this->middleware('guest');
     }
 
     /**
@@ -51,8 +56,9 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'usuario' => ['required', 'string', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'apellido' => ['required', 'string'],
         ]);
     }
 
@@ -64,9 +70,29 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        /*
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
+            'password' => Hash::make($data['password']),
+        ]);
+        */
+        //Hay que consultar si ya hay usuarios en la BD, si no entonces el primer usuario seré el admin
+        //Después solo el admin podrá registrar usuarios, por lo cual solo el podrá ver la página
+
+        $numero=(User::count());
+        if($numero==0)
+            $admin=1;
+        else
+            $admin=0;
+
+        return User::create([
+            //En realidad el campo email es usado para almacenar un usuario
+            //Lo dejo con ese nombre para evitarme problemas
+            'usuario' => $data['usuario'],
+            'name' => $data['name'],
+            'apellido' => $data['apellido'],
+            'admin' => $admin,
             'password' => Hash::make($data['password']),
         ]);
     }

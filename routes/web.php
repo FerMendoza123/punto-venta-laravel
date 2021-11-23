@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,13 +20,13 @@ Route::get('/', "Controller@welcome");
 
 //Producto
     //Create
-Route::get("/Alta","ProductoController@alta");
-Route::post("/GuardaProducto","ProductoController@guardaProducto");//->middleware("auth");
+Route::get("/alta","ProductoController@alta")->middleware("auth");
+Route::post("/guardaProducto","ProductoController@guardaProducto")->middleware("auth");
     //Read, Update, Delete
-Route::get("/Producto/{idProducto}","ProductoController@muestraProducto");//->middleware("auth");
-Route::post("/eliminar","ProductoController@eliminaProducto");//->middleware("auth");
+Route::get("/producto/{idProducto}","ProductoController@muestraProducto")->middleware("auth");
+Route::post("/eliminar","ProductoController@eliminaProducto")->middleware("auth");
 
-Route::get("/vender/{idProducto}","VentaController@vendeProducto");
+Route::get("/vender/{idProducto}","VentaController@vendeProducto")->middleware("auth");
 
 Auth::routes();
 

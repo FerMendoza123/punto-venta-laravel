@@ -14,13 +14,13 @@ class CreateVentasTable extends Migration
     public function up()
     {
         Schema::create('ventas', function (Blueprint $table) {
-            $table->id("IdVenta");
-            $table->unsignedBigInteger("IdUsuario");
+            $table->id("idVenta");
+            $table->unsignedBigInteger("idUsuario");
             #$table->unsignedBigInteger("");
-            $table->date("Fechacompra");
+            $table->date("fechaCompra");
             $table->timestamps();
 
-            $table->foreign("IdUsuario")->references("IdUsuario")->on("usuarios");
+            $table->foreign("idUsuario")->references("idUsuario")->on("users");
         });
     }
 
