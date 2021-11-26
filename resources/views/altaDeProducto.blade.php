@@ -4,7 +4,7 @@
 
 <div class="container mt-5" >
 
-    <form action="/GuardaProducto" method="POST" enctype="multipart/form-data">
+    <form id="formProducto" action="/guardaProducto" method="POST" enctype="multipart/form-data">
         @csrf
         <!--Aquí va el selesctor de imagen-->
         
@@ -61,7 +61,7 @@
                 }
             }
             
-            $("form").submit(function valida(){
+            $("#formProducto").submit(function valida(){
                 var campo1=null;
                 var campo2=null;
                 var mensaje=null;

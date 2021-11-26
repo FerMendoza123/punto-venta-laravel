@@ -21,39 +21,52 @@ class ProductoController extends Controller
     public function guardaProducto(Request $request)
     {
         //dd($request);
-        if(isset($request->IdProducto))
+        if(isset($request->idProducto))
         {
-            $producto = Producto::find($request->IdProducto);
+            $producto = Producto::find($request->idProducto);
         }
         else
         {
             $producto = new Producto();
         }
 
-        $producto->CodigoProd = $request->CodigoProd;
-        $producto->Nombre = $request->Nombre;
-        $producto->Precio = $request->Precio;
+        $producto->codigoProd = $request->codigoProd;
+        $producto->nombre = $request->nombre;
+        $producto->precio = $request->precio;
         
-        if(is_null($request->Stock))
+        if(is_null($request->stock))
         {
-            $producto->Stock = 0;
+            $producto->stock = 0;
         }
         else
         {
-            $producto->Stock = $request->Stock;
+            $producto->stock = $request->stock;
         }
-        if(!is_null($request->NombreImg))
+        if(!is_null($request->nombreImg))
         {
-            $producto->DireccionImg = $request->file("imagen")->store($request->NombreImg); //imagen es el name en el imput
+            $producto->direccionImg = $request->file("imagen")->store($request->nombreImg); //imagen es el name en el imput
         }
         else
-            if(!isset($request->IdProducto))
-                $producto->DireccionImg = NULL;
+            if(!isset($request->idProducto))
+                $producto->direccionImg = NULL;
         
-        $producto->Eliminado = False;
+        $producto->eliminado = False;
 
         $producto->save();
         return redirect()->back();
+    }
+
+    public function buscaProducto($busqueda=null)
+    {
+
+        if($busqueda!=null)
+        {
+            $cadena=$busqueda->cadena;
+            dd($cadena);
+            //return view("busqueda")->with();
+        }
+        else
+            return redirect()->back();
     }
 
     public function muestraProducto($idProducto=null)

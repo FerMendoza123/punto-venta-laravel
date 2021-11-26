@@ -14,14 +14,16 @@
         <span class="row">Precio: {{$producto->precio}}</span>
         <span class="row">Cantidad en almacén: @if(!is_null($producto->stock)) {{$producto->stock}} @else No se ha registrado la canditad, edite el producto para agregar @endif</span>
         <div class="row justify-content-around">
+        @if(Auth::check() && Auth::user()->admin == 1)        
             <button class="col-2 btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#modalEditar" id="{{$producto->codigoProd}}"> Editar </button>
             <button class="col-2 btn btn-danger" type="button" data-bs-toggle="modal" data-bs-target="#modalEliminar"> Eliminar </button>
+        @endif
             <a class="col-2 btn btn-success" href="/vender/{{$producto->codigoProd}}">vender</a>
         </div>
 
 
         <!--Modal Para editar-->
-        <form id="formEdit" action="/GuardaProducto" method="POST" enctype="multipart/form-data">
+        <form id="formEdit" action="/guardaProducto" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="modal fade" id="modalEditar" tabindex="-1" aria-labelledby="modalEditarLabel" aria-hidden="true">
                 <div class="modal-dialog">

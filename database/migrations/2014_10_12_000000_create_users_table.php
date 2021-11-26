@@ -17,6 +17,7 @@ class CreateUsersTable extends Migration
             $table->id("idUsuario");
 
             $table->string('usuario')->unique();
+            $table->string('email')->unique()->nullable();
             $table->string("name");
             $table->string("apellido");
             $table->boolean("admin");

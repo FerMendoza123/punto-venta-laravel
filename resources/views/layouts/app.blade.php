@@ -37,7 +37,7 @@
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
+                    Abarrotes Karina
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
@@ -51,11 +51,12 @@
 
 
 
-                <!--busqueda-->
-                <form class="d-flex w-50">
-                    <input name="" class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
-                    <button class="btn btn-outline-success" type="submit">Buscar</button>
-                </form>
+                    <!--busqueda-->
+                    <form class="d-flex w-50" method="GET" action="/buscar">
+                        @csrf
+                        <input name="cadena" class="form-control me-2" type="search" placeholder="buscar" aria-label="buscar">
+                        <button id="bBusqueda" class="btn btn-outline-success" type="submit">Buscar</button>
+                    </form>
 
 
 
@@ -78,12 +79,20 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                @if(Auth::check() && Auth::user()->admin == 1)   
+                                    <a class="dropdown-item" href="/alta">
+                                        {{ __('Registrar producto') }}
+                                    </a>
+                                    <a class="dropdown-item" href="/register">
+                                        {{ __('Registrar usuario') }}
+                                    </a>
+                                @endif
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
                                     </a>
-
+                                
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                         @csrf
                                     </form>
@@ -101,3 +110,13 @@
     </div>
 </body>
 </html>
+
+<script>
+    /*
+    $(document).ready(
+        function ()
+        {
+            $("#bBusqueda").
+        }
+    );*/
+</script>

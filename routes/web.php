@@ -25,6 +25,7 @@ Route::post("/guardaProducto","ProductoController@guardaProducto")->middleware("
     //Read, Update, Delete
 Route::get("/producto/{idProducto}","ProductoController@muestraProducto")->middleware("auth");
 Route::post("/eliminar","ProductoController@eliminaProducto")->middleware("auth");
+Route::get("/buscar/{busqueda}","ProductoController@buscaProducto")->middleware("auth");
 
 Route::get("/vender/{idProducto}","VentaController@vendeProducto")->middleware("auth");
 

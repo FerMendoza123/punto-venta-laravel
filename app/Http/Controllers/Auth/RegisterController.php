@@ -8,6 +8,11 @@ use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+//Needed to overwrite register
+use Illuminate\Http\Request;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
 
 class RegisterController extends Controller
 {
@@ -40,6 +45,7 @@ class RegisterController extends Controller
     {
         
         $numero=(User::count());
+        //Auth::check() && Auth::user()->admin == 1
         if($numero>0)
             $this->middleware('auth');
         else
@@ -58,6 +64,7 @@ class RegisterController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'usuario' => ['required', 'string', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'email'=>['email','max:255'],
             'apellido' => ['required', 'string'],
         ]);
     }
@@ -86,14 +93,39 @@ class RegisterController extends Controller
         else
             $admin=0;
 
-        return User::create([
+        if(isset($data['email']))
+            $email=$data['email'];
+        else
+            $email=NULL;
+
+        User::create([
             //En realidad el campo email es usado para almacenar un usuario
             //Lo dejo con ese nombre para evitarme problemas
             'usuario' => $data['usuario'],
+            'email' => $email,
             'name' => $data['name'],
             'apellido' => $data['apellido'],
             'admin' => $admin,
             'password' => Hash::make($data['password']),
         ]);
+    }
+
+
+    public function register(Request $request)
+    {
+        $this->validator($request->all())->validate();
+
+        event(new Registered($user = $this->create($request->all())));
+
+        if(!Auth::check())
+            $this->guard()->login($user);
+
+        if ($response = $this->registered($request, $user)) {
+            return $response;
+        }
+
+        return $request->wantsJson()
+                    ? new JsonResponse([], 201)
+                    : redirect($this->redirectPath());
     }
 }
