@@ -42,14 +42,32 @@ class RegisterController extends Controller
      * @return void
      */
     public function __construct()
-    {
-        
+    { 
         $numero=(User::count());
         //Auth::check() && Auth::user()->admin == 1
+        
         if($numero>0)
-            $this->middleware('auth');
-        else
-            $this->middleware('guest');
+        {
+            $this->middleware("auth");
+            $this->middleware(function ($request, $next) {  
+                if (Auth::user()->admin == 0) {
+                    return redirect("/home");
+                }
+                    return $next($request);
+                });
+            //$this->middleware('auth');
+            /*if(Auth::user()->admin == 0){
+                return redirect("/");
+            }*/
+        }
+        /*
+        if(Auth::check())
+        {
+            dd("hola");
+            if(Auth::user()->admin == 0)
+                return redirect("/");
+        }*/
+        //dd("hola, ya estas autentificado");
     }
 
     /**

@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Auth;
 */
 
 //Route::get('/', function () {return view('welcome');});
-Route::get('/', "Controller@welcome");
+Route::get('/', "Controller@welcome")->middleware("auth");
 
 
 //Producto
@@ -25,9 +25,20 @@ Route::post("/guardaProducto","ProductoController@guardaProducto")->middleware("
     //Read, Update, Delete
 Route::get("/producto/{idProducto}","ProductoController@muestraProducto")->middleware("auth");
 Route::post("/eliminar","ProductoController@eliminaProducto")->middleware("auth");
-Route::get("/buscar/{busqueda}","ProductoController@buscaProducto")->middleware("auth");
+Route::get("/buscar","ProductoController@buscaProducto")->middleware("auth");
 
 Route::get("/vender/{idProducto}","VentaController@vendeProducto")->middleware("auth");
+Route::get("/caja","VentaController@muestraCaja")->middleware("auth");
+
+
+Route::post("/caja/agregaProd","ProductoController@cajaAgregaProd")->middleware("auth");
+Route::post("/caja/realizaVenta","VentaController@realizaVenta")->middleware("auth");
+
+Route::post("/retornaProdCaja/{idProdcu}");
+
+
+Route::get("/reportes","VentaController@muestraReporte");
+
 
 Auth::routes();
 

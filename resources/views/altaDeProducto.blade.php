@@ -2,9 +2,10 @@
 
 @section("content")
 
-<div class="container mt-5" >
-
-    <form id="formProducto" action="/guardaProducto" method="POST" enctype="multipart/form-data">
+<div class="container mt-4 justify-content-center">
+    <h4>Registro de producto</h1>
+    <hr>
+    <form class="m-5" id="formProducto" action="/guardaProducto" method="POST" enctype="multipart/form-data">
         @csrf
         <!--Aquí va el selesctor de imagen-->
         
@@ -20,25 +21,25 @@
 
         <div class="row m-2">
             <label class="col-3" for="codigo">Codigo de producto*:</label>    
-            <input id="CodigoProd" name="codigoProd" class="col" type="text">
+            <input id="CodigoProd" name="codigoProd" class="col mr-5" type="text">
         </div>
 
         <div class="row m-2">
             <label class="col-3" for="nombre">Nombre del producto:</label>    
-            <input id="Nombre" name="nombre" class="col"  type="text">
+            <input id="Nombre" name="nombre" class="col mr-5"  type="text">
         </div>
 
         <div class="row m-2">
             <label class="col-3" for="precio">Precio*:</label>    
-            <input id="Precio" name="precio" class="col" type="text">
+            <input id="Precio" name="precio" class="col mr-5" type="text">
         </div>
 
         <div class="row m-2">
             <label class="col-3" for="cantidad">Cantidad en almacén:</label>  
-            <input id="Stock" name="stock" class="col" type="number">
+            <input id="Stock" name="stock" class="col mr-5" type="number">
         </div>
-        <div class="row m-2 align-items-end">
-            <input class="btn btn-primary" type="submit" value="Registrar producto">
+        <div class="row m-2 mt-5 justify-content-center">
+            <input class="btn btn-primary col-5" type="submit" value="Registrar producto">
         </div>
         
     </form>

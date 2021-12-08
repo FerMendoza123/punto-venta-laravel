@@ -12,6 +12,7 @@ class Controller extends BaseController
     //use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
     public function welcome()
     {
-        return redirect("/alta");
+        //return redirect("/alta");
+        return view("welcome");
     }
 }

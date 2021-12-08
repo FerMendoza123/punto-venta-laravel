@@ -23,7 +23,8 @@
 
     <link href="/libreriasOffLine/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <script src="/libreriasOffLine/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="/libreriasOffLine/jquery-3.6.0.min.js"></script>
+    <!--<script src="/libreriasOffLine/jquery-3.6.0.min.js"></script>-->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="/libreriasOffLine/fontawesome-free-5.15.4-web/css/all.css"/>
 
 </head>
@@ -52,9 +53,9 @@
 
 
                     <!--busqueda-->
-                    <form class="d-flex w-50" method="GET" action="/buscar">
-                        @csrf
-                        <input name="cadena" class="form-control me-2" type="search" placeholder="buscar" aria-label="buscar">
+                    <form class="d-flex w-50" method="GET" action="/buscar/">
+                        
+                        <input name="cadena" class="form-control me-2" type="search" placeholder="Buscar" aria-label="buscar">
                         <button id="bBusqueda" class="btn btn-outline-success" type="submit">Buscar</button>
                     </form>
 
@@ -67,7 +68,7 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
                             </li>
-                            @if (Route::has('register'))
+                            @if (Route::has('register') && \App\User::count() == 0)
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
                                 </li>
@@ -79,12 +80,18 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="/caja">
+                                        {{ __('Caja registradora') }}
+                                    </a>
                                 @if(Auth::check() && Auth::user()->admin == 1)   
                                     <a class="dropdown-item" href="/alta">
                                         {{ __('Registrar producto') }}
                                     </a>
                                     <a class="dropdown-item" href="/register">
                                         {{ __('Registrar usuario') }}
+                                    </a>
+                                    <a class="dropdown-item" href="/reportes">
+                                        {{ __('Reportes') }}
                                     </a>
                                 @endif
                                     <a class="dropdown-item" href="{{ route('logout') }}"

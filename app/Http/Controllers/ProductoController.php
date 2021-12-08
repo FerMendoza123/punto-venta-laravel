@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Producto;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 //use Illuminate\Support\Facades\DB;
 use phpDocumentor\Reflection\PseudoTypes\False_;
 use phpDocumentor\Reflection\PseudoTypes\True_;
+use Symfony\Component\Console\Input\Input;
 
 use function PHPUnit\Framework\isNull;
 
@@ -15,7 +17,11 @@ class ProductoController extends Controller
     //
     public function alta()
     {
-        return view("altaDeProducto");
+        if(Auth::check() && Auth::user()->admin==1) 
+        {
+            return view("altaDeProducto");
+        }
+        return redirect("/home");
     }
 
     public function guardaProducto(Request $request)
@@ -56,18 +62,21 @@ class ProductoController extends Controller
         return redirect()->back();
     }
 
-    public function buscaProducto($busqueda=null)
+    public function buscaProducto(Request $request)
     {
-
-        if($busqueda!=null)
+        if($request->input("cadena")!=null)
         {
-            $cadena=$busqueda->cadena;
-            dd($cadena);
-            //return view("busqueda")->with();
+            $cadena=$request->input("cadena");
+            //dd($cadena);
+            $cadena = "%".$cadena."%";
+            $productos=Producto::where("eliminado", false)->where("codigoProd","like",$cadena)->orwhere("nombre",'like',$cadena)->get();
+            return view("busqueda")->with("productos",$productos);
         }
         else
             return redirect()->back();
+            
     }
+    
 
     public function muestraProducto($idProducto=null)
     {
@@ -75,6 +84,8 @@ class ProductoController extends Controller
         {
             $producto = Producto::find($idProducto);
             //dd($producto);
+            if($producto->eliminado==true)
+                return redirect("/");
             return view("visualizaProducto")->with("producto",$producto);
         }  
         return redirect("/");
@@ -84,17 +95,37 @@ class ProductoController extends Controller
 
     public function eliminaProducto(Request $request)
     {
-        #Verificar que el usuario sea administrador, 
-        $idProducto=$request->idProducto;
-        $producto=Producto::find($idProducto);
-        $producto->Eliminado=True;
-        //dd($producto);
-        $producto->save();
-        
+        #Verificar que el usuario sea administrador,
+        if(Auth::check() && Auth::user()->admin==1) 
+        {
+            $idProducto=$request->idProducto;
+            $producto=Producto::find($idProducto);
+            //dd($producto);
+            $producto->Eliminado=True;
+            //dd($producto);
+            $producto->save();
+        }
         //return redirect()->back();
-
         return redirect("/");
     }
 
+
+
+
+
+    public function cajaAgregaProd(Request $request)
+    {
+        if(isset($request->codigoProd))
+        {
+            $producto = Producto::where("codigoProd",$request->codigoProd)->where("eliminado",0)->first();
+            return response(json_encode($producto),200)->header("Content-type","text/plain");
+        }
+    }
+
+
+    public function descuentaProducto(int $id, int $cantidad)
+    {
+        $producto=Producto::where("idProducto",$id)->decrement("stock",$cantidad);
+    }
     
 }
