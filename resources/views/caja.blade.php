@@ -17,6 +17,8 @@
         @csrf
         <div id="contProd" class="container border border-dark p-5 my-5 " >
 
+
+
         </div>
         <input id="btnProds" type="submit" value="Comprar">
     </form>
@@ -88,7 +90,7 @@
 
         $("#contProd").append(productoDiv);
     }
-
+    
 
     
     $(document).ready(function(){
@@ -96,7 +98,6 @@
         //Petición asíncrona
         $("#btnCP").click(function(form){
             form.preventDefault();           
-
             if($("#"+$("#codigoProd").val()).length>0)
             {
                 return false;
@@ -114,12 +115,16 @@
             }
         });
 
+        //Agregar el producto del cual se viene
+        
 
         //Función para eliminar producto
-        $(".eliminaProd").click(function(){
-            this.parent(".row").remove();
+        //$(".eliminaProd").click(function(form){
+            //form.preventDefault()
+        //});
+        $("#contProd").on('click', '.eliminaProd', function(){
+            $(this).parent().parent().remove();
         });
-
 
         //Función para checar disponibilidad
 
@@ -148,5 +153,22 @@
         });
     });
 
-    
 </script>
+
+@if(isset($idProducto) && !is_null($idProducto))
+<script>
+    $(document).ready(function(){
+        $.ajax({
+            url:"/caja/agregaProd",
+            method:"POST",
+            data:{_token:$("input[name='_token']").val(),
+                codigoProd:"{{$idProducto}}"
+            }
+        }).done(function(res){
+                var producto = JSON.parse(res);
+                agregaProd(producto);
+            });
+
+    });
+</script>
+@endif

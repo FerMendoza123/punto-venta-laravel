@@ -8,6 +8,7 @@ use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use PDF;
 
 class VentaController extends Controller
 {
@@ -18,7 +19,7 @@ class VentaController extends Controller
         //dd($idProducto);
         if(!is_null($idProducto))
         {
-            return view("ventaProducto")->with("idProducto",$idProducto);
+            return view("caja")->with("idProducto",$idProducto);
         }
         return redirect("/");
     }
@@ -73,17 +74,20 @@ class VentaController extends Controller
         //Primero tengo que obtener losproductos mas vendidos
         $Productos = DB::table('productos')
         ->join('detalle_ventas','detalle_ventas.idProducto','=','productos.idProducto')
-        ->select("productos.idProducto",DB::raw("sum(cantProd)"))
-        ->groupBy("idProducto")->orderBy(DB::raw("sum(cantProd)"),"desc")->paginate(10);
+        ->select("productos.idProducto","productos.codigoProd","productos.nombre",DB::raw("sum(cantProd) as sum"))
+        ->groupBy("idProducto")->orderBy(DB::raw("sum(cantProd)"),"desc")->take(10)->get()->toArray();
         
         //Días ordenados por cual tiene mas ventas
-        $días = DB::table('ventas')
-        ->select(DB::raw("DATE_FORMAT(fechaCompra,'%W')"),DB::raw("count(*)"))
-        ->groupBy(DB::raw("DATE_FORMAT(fechaCompra,'%W')"))->orderBy(DB::raw("count(*)"),"desc")->get();
-        dd($días);
-        dd($Productos);
-
-
-        
+        $dias = DB::table('ventas')
+        ->select(DB::raw("DATE_FORMAT(fechaCompra,'%W') as dia"),DB::raw("count(*) as sum"))
+        ->groupBy(DB::raw("DATE_FORMAT(fechaCompra,'%W')"))->orderBy(DB::raw("count(*)"),"desc")->get()->toArray();
+        //dd($días);
+        //dd($Productos);
+        //dd(gettype($Productos));
+    
+        $data=[$Productos,$dias];
+        //return view("reporte")->with('data',$data);
+        $pdf = PDF::loadView('reporte',compact('Productos','dias') );
+        return $pdf->download('invoice.pdf');
     }
 }

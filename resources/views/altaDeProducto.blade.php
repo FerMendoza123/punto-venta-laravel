@@ -3,7 +3,7 @@
 @section("content")
 
 <div class="container mt-4 justify-content-center">
-    <h4>Registro de producto</h1>
+    <h4>Registro de producto</h4>
     <hr>
     <form class="m-5" id="formProducto" action="/guardaProducto" method="POST" enctype="multipart/form-data">
         @csrf
